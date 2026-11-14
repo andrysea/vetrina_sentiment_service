@@ -2,7 +2,7 @@
 
 ## 1. Descrizione del progetto
 
-Servizio REST sviluppato con **Python e FastAPI** per l'analisi del sentiment di recensioni in lingua inglese.
+Servizio REST sviluppato con **Python e FastAPI** per l'analisi del sentiment di recensioni per la sola lingua inglese.
 
 Il servizio utilizza un modello di Machine Learning preaddestrato, basato su scikit-learn, per classificare le recensioni come:
 
@@ -12,7 +12,7 @@ Il servizio utilizza un modello di Machine Learning preaddestrato, basato su sci
 
 Il progetto ha l'obiettivo di rendere il modello disponibile attraverso API REST, verificarne il funzionamento mediante test automatici e predisporne il deployment e il monitoraggio.
 
-**Tecnologie:** Python 3.13, FastAPI, scikit-learn, Pytest, Docker, Docker Compose, Prometheus, Grafana e Jenkins (CI/CD in preparazione).
+**Tecnologie impiegate:** Python 3.13, FastAPI, scikit-learn, Pytest, Docker, Prometheus, Grafana e Jenkins.
 
 ## 2. Architettura
 
@@ -40,9 +40,7 @@ Per eseguire i test direttamente sul computer sono necessari anche Python 3.13 e
 
 Aprire il terminale e posizionarsi nella directory principale del repository:
 
-```bash
 cd /percorso/del/progetto/vetrina_sentiment_service
-```
 
 ### 4.2 Configurare le variabili d'ambiente
 
@@ -50,17 +48,12 @@ Creare il file `.env` nella directory principale.
 
 Se è presente `.env.example`, copiarlo:
 
-```bash
 cp .env.example .env
-```
 
 Impostare nel file `.env` una password sicura per Grafana:
 
-```dotenv
 GRAFANA_ADMIN_PASSWORD=INSERIRE_PASSWORD_PERSONALE
-```
 
-Il file `.env` contiene informazioni riservate e non deve essere caricato su GitHub.
 
 ### 4.3 Verificare Docker Compose
 
@@ -68,25 +61,21 @@ Assicurarsi che Docker Desktop sia avviato.
 
 Eseguire:
 
-```bash
 docker compose config --quiet
-```
+
 
 Il comando verifica la configurazione Compose. Se termina senza errori, si può procedere.
 
 ### 4.4 Costruire e avviare i servizi
 
-```bash
 docker compose up -d --build
-```
 
 Il comando costruisce l'immagine del servizio FastAPI, scarica le immagini necessarie e avvia i container in background.
 
 ### 4.5 Verificare i container
 
-```bash
 docker compose ps
-```
+
 
 I servizi `api`, `prometheus` e `grafana` devono risultare in esecuzione.
 
@@ -96,17 +85,13 @@ Dopo aver spento e riacceso il computer, aprire Docker Desktop e posizionarsi ne
 
 Per avviare l'intero sistema:
 
-```bash
 docker compose up -d
-```
+
 
 Per verificarne lo stato:
 
-```bash
 docker compose ps
-```
 
-Non è necessario ricostruire l'immagine a ogni avvio.
 
 ## 6. Utilizzo del servizio
 
@@ -120,24 +105,22 @@ http://localhost:8000/docs
 
 Esempio di richiesta:
 
-```json
 {
   "review": "This product is amazing!"
 }
-```
+
 
 Esempio di risposta:
 
-```json
 {
   "sentiment": "positive",
   "confidence": 0.8249
 }
-```
+
 
 Il valore di confidence rappresenta la probabilità stimata dal modello per la classe prevista.
 
-Le richieste non valide restituiscono HTTP `422`. Gli errori interni di predizione vengono gestiti con HTTP `500`.
+Le richieste non valide restituiscono HTTP 422. Gli errori interni di predizione vengono gestiti con HTTP 500.
 
 ### 6.2 Prometheus
 
@@ -147,9 +130,8 @@ http://localhost:9090
 
 Verificare lo stato della raccolta con la query PromQL:
 
-```promql
 up{job="vetrinia-api"}
-```
+
 
 Il valore `1` indica che Prometheus sta raccogliendo correttamente le metriche.
 
@@ -181,22 +163,18 @@ Le dashboard Grafana permetteranno di visualizzare questi indicatori e individua
 
 Per eseguire i test direttamente sul computer, creare e attivare un ambiente virtuale Python:
 
-```bash
 python3 -m venv .venv
 source .venv/bin/activate
-```
 
 Installare le dipendenze:
 
-```bash
 python -m pip install -r requirements.txt
-```
+
 
 Eseguire la suite:
 
-```bash
 python -m pytest tests/ -v
-```
+
 
 Il progetto include test unitari e di integrazione per la validazione, le predizioni, gli errori HTTP e le metriche.
 
@@ -206,45 +184,33 @@ Il progetto include test unitari e di integrazione per la validazione, le prediz
 
 Visualizzare lo stato dei container:
 
-```bash
 docker compose ps
-```
 
 Visualizzare i log di tutti i servizi:
 
-```bash
 docker compose logs
-```
+
 
 Seguire in tempo reale i log FastAPI:
 
-```bash
 docker compose logs -f api
-```
 
 Visualizzare i log di Prometheus:
 
-```bash
 docker compose logs prometheus
-```
 
 Visualizzare i log di Grafana:
 
-```bash
 docker compose logs grafana
-```
 
 Ricostruire l'immagine e aggiornare i servizi dopo modifiche al codice:
 
-```bash
 docker compose up -d --build
-```
+
 
 Arrestare e rimuovere i container gestiti da Compose:
 
-```bash
 docker compose down
-```
 
 I volumi persistenti di Prometheus e Grafana vengono conservati dal normale comando `down`.
 
@@ -266,9 +232,8 @@ La configurazione si trova nei seguenti file:
 
 Per avviare l'infrastruttura:
 
-```bash
 docker compose up -d
-```
+
 
 Aprire `http://localhost:3000` e accedere con le credenziali configurate nel file `.env`.
 
