@@ -37,6 +37,23 @@ pipeline {
                 '''
             }
         }
+
+        stage('Test automatici') {
+            steps {
+                sh '''
+                    set -eu
+
+                    export PATH="$HOME/.docker/bin:/opt/homebrew/bin:/usr/local/bin:/Applications/Docker.app/Contents/Resources/bin:$PATH"
+
+                    docker run --rm \
+                        --mount "type=bind,source=$WORKSPACE,target=/workspace,readonly" \
+                        --workdir /workspace \
+                        -e PYTHONDONTWRITEBYTECODE=1 \
+                        python:3.13-slim \
+                        sh -c 'python -m pip install --no-cache-dir -r requirements.txt && python -m pytest -p no:cacheprovider tests/ -v'
+                '''
+            }
+        }
     }
 
     post {
