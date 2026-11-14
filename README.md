@@ -61,21 +61,20 @@ Assicurarsi che Docker Desktop sia avviato.
 
 Eseguire:
 
-docker compose config --quiet
+- docker compose config --quiet
 
 
 Il comando verifica la configurazione Compose. Se termina senza errori, si può procedere.
 
 ### 4.4 Costruire e avviare i servizi
 
-docker compose up -d --build
+- docker compose up -d --build
 
 Il comando costruisce l'immagine del servizio FastAPI, scarica le immagini necessarie e avvia i container in background.
 
 ### 4.5 Verificare i container
 
-docker compose ps
-
+- docker compose ps
 
 I servizi `api`, `prometheus` e `grafana` devono risultare in esecuzione.
 
@@ -85,12 +84,11 @@ Dopo aver spento e riacceso il computer, aprire Docker Desktop e posizionarsi ne
 
 Per avviare l'intero sistema:
 
-docker compose up -d
-
+- docker compose up -d
 
 Per verificarne lo stato:
 
-docker compose ps
+- docker compose ps
 
 
 ## 6. Utilizzo del servizio
@@ -130,8 +128,7 @@ http://localhost:9090
 
 Verificare lo stato della raccolta con la query PromQL:
 
-up{job="vetrinia-api"}
-
+- up{job="vetrinia-api"}
 
 Il valore `1` indica che Prometheus sta raccogliendo correttamente le metriche.
 
@@ -163,17 +160,16 @@ Le dashboard Grafana permetteranno di visualizzare questi indicatori e individua
 
 Per eseguire i test direttamente sul computer, creare e attivare un ambiente virtuale Python:
 
-python3 -m venv .venv
-source .venv/bin/activate
+- python3 -m venv .venv
+- source .venv/bin/activate
 
 Installare le dipendenze:
 
-python -m pip install -r requirements.txt
-
+- python -m pip install -r requirements.txt
 
 Eseguire la suite:
 
-python -m pytest tests/ -v
+- python -m pytest tests/ -v
 
 
 Il progetto include test unitari e di integrazione per la validazione, le predizioni, gli errori HTTP e le metriche.
@@ -190,7 +186,6 @@ Visualizzare i log di tutti i servizi:
 
 - docker compose logs
 
-
 Seguire in tempo reale i log FastAPI:
 
 - docker compose logs -f api
@@ -206,7 +201,6 @@ Visualizzare i log di Grafana:
 Ricostruire l'immagine e aggiornare i servizi dopo modifiche al codice:
 
 - docker compose up -d --build
-
 
 Arrestare e rimuovere i container gestiti da Compose:
 
@@ -232,7 +226,7 @@ La configurazione si trova nei seguenti file:
 
 Per avviare l'infrastruttura:
 
-docker compose up -d
+- docker compose up -d
 
 
 Aprire `http://localhost:3000` e accedere con le credenziali configurate nel file `.env`.
