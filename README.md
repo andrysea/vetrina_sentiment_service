@@ -184,33 +184,33 @@ Il progetto include test unitari e di integrazione per la validazione, le prediz
 
 Visualizzare lo stato dei container:
 
-docker compose ps
+- docker compose ps
 
 Visualizzare i log di tutti i servizi:
 
-docker compose logs
+- docker compose logs
 
 
 Seguire in tempo reale i log FastAPI:
 
-docker compose logs -f api
+- docker compose logs -f api
 
 Visualizzare i log di Prometheus:
 
-docker compose logs prometheus
+- docker compose logs prometheus
 
 Visualizzare i log di Grafana:
 
-docker compose logs grafana
+- docker compose logs grafana
 
 Ricostruire l'immagine e aggiornare i servizi dopo modifiche al codice:
 
-docker compose up -d --build
+- docker compose up -d --build
 
 
 Arrestare e rimuovere i container gestiti da Compose:
 
-docker compose down
+- docker compose down
 
 I volumi persistenti di Prometheus e Grafana vengono conservati dal normale comando `down`.
 
