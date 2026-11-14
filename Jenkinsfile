@@ -54,6 +54,27 @@ pipeline {
                 '''
             }
         }
+        
+        stage('Build Docker') {
+            steps {
+                sh '''
+                    set -eu
+
+                    export PATH="$HOME/.docker/bin:/opt/homebrew/bin:/usr/local/bin:/Applications/Docker.app/Contents/Resources/bin:$PATH"
+
+                    echo "=== Costruzione immagine Docker ==="
+
+                    docker build \
+                        -t "vetrinia-sentiment:ci-${BUILD_NUMBER}" \
+                        .
+
+                    echo "=== Verifica immagine ==="
+
+                    docker image inspect "vetrinia-sentiment:ci-${BUILD_NUMBER}"
+                '''
+            }
+        }
+
     }
 
     post {
