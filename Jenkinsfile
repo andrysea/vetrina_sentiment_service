@@ -54,7 +54,7 @@ pipeline {
                 '''
             }
         }
-        
+
         stage('Build Docker') {
             steps {
                 sh '''
@@ -74,6 +74,57 @@ pipeline {
                 '''
             }
         }
+
+        stage('Deploy Docker') {
+            steps {
+                sh '''
+                    set -eu
+
+                    export PATH="$HOME/.docker/bin:/opt/homebrew/bin:/usr/local/bin:/Applications/Docker.app/Contents/Resources/bin:$PATH"
+
+                    export VETRINIA_IMAGE="vetrinia-sentiment:ci-${BUILD_NUMBER}"
+
+                    echo "=== Verifica immagine da distribuire ==="
+                    docker image inspect "$VETRINIA_IMAGE" --format '{{.Id}}'
+
+                    echo "=== Deployment FastAPI ==="
+
+                    docker compose \
+                        --project-name vetrina_sentiment_service \
+                        --file "$WORKSPACE/compose.yaml" \
+                        --env-file "$HOME/Desktop/vetrina_sentiment_service/.env" \
+                        config --quiet
+
+                    docker compose \
+                        --project-name vetrina_sentiment_service \
+                        --file "$WORKSPACE/compose.yaml" \
+                        --env-file "$HOME/Desktop/vetrina_sentiment_service/.env" \
+                        up -d --no-deps --no-build --force-recreate api
+
+                    echo "=== Verifica endpoint /predict ==="
+
+                    response="$(curl \
+                        --fail --silent --show-error \
+                        --retry 10 --retry-connrefused --retry-delay 2 \
+                        --max-time 5 \
+                        -X POST http://127.0.0.1:8000/predict \
+                        -H 'Content-Type: application/json' \
+                        -d '{"review":"This product is amazing!"}')"
+
+                    printf '%s\\n' "$response" | python3 -c '
+        import json
+        import sys
+
+        data = json.load(sys.stdin)
+        assert data["sentiment"] == "positive", data
+        print("Smoke test superato:", data["sentiment"])
+        '
+
+                    echo "=== Deployment completato ==="
+                '''
+            }
+        }
+
 
     }
 
