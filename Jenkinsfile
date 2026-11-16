@@ -1,11 +1,15 @@
 
 pipeline {
-    agent any // Esegue la pipeline su un agente Jenkins disponibile
+    agent any
 
     options {
-        skipDefaultCheckout(true) // Evita il checkout automatico duplicato
+        skipDefaultCheckout(true)
         disableConcurrentBuilds()
         timestamps()
+    }
+
+    triggers {
+        pollSCM('H/2 * * * *')
     }
 
     stages {
