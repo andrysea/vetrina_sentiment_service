@@ -149,13 +149,46 @@ pipeline {
 
     }
 
-   post {
+    post {
         success {
             echo 'Pipeline CI/CD completata con successo!'
+
+            emailext(
+                to: '$DEFAULT_RECIPIENTS',
+                subject: "Vetrinia CI/CD - SUCCESS #${env.BUILD_NUMBER}",
+                body: """
+                    Pipeline completata con successo.
+
+                    Progetto: ${env.JOB_NAME}
+                    Build: ${env.BUILD_NUMBER}
+                    Stato: SUCCESS
+
+                    Test e deployment completati correttamente.
+
+                    Dettagli: ${env.BUILD_URL}
+                """
+            )
         }
 
         failure {
             echo 'Pipeline CI/CD fallita: controllare la console.'
+
+            emailext(
+                to: '$DEFAULT_RECIPIENTS',
+                subject: "Vetrinia CI/CD - FAILURE #${env.BUILD_NUMBER}",
+                body: """
+                    Si è verificato un errore nella pipeline.
+
+                    Progetto: ${env.JOB_NAME}
+                    Build: ${env.BUILD_NUMBER}
+                    Stato: FAILURE
+
+                    Consultare i log per individuare il problema.
+
+                    Dettagli: ${env.BUILD_URL}
+                """
+            )
         }
     }
+
 }
