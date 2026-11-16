@@ -85,6 +85,7 @@ pipeline {
                     export VETRINIA_IMAGE="vetrinia-sentiment:ci-${BUILD_NUMBER}"
 
                     echo "=== Verifica immagine da distribuire ==="
+
                     docker image inspect "$VETRINIA_IMAGE" --format '{{.Id}}'
 
                     echo "=== Deployment FastAPI ==="
@@ -101,24 +102,39 @@ pipeline {
                         --env-file "$HOME/Desktop/vetrina_sentiment_service/.env" \
                         up -d --no-deps --no-build --force-recreate api
 
+                    echo "=== Attesa disponibilita FastAPI ==="
+
+                    attempt=1
+
+                    until curl --fail --silent --show-error \
+                        --max-time 3 \
+                        --output /dev/null \
+                        http://127.0.0.1:8000/metrics
+                    do
+                        if [ "$attempt" -ge 15 ]; then
+                            echo "FastAPI non disponibile"
+                            docker logs --tail=50 vetrina_sentiment_service-api-1
+                            exit 1
+                        fi
+
+                        echo "FastAPI non ancora pronto. Tentativo $attempt/15"
+
+                        attempt=$((attempt + 1))
+                        sleep 2
+                    done
+
+                    echo "FastAPI pronto!"
+
                     echo "=== Verifica endpoint /predict ==="
 
                     response="$(curl \
                         --fail --silent --show-error \
-                        --retry 10 --retry-connrefused --retry-delay 2 \
                         --max-time 5 \
                         -X POST http://127.0.0.1:8000/predict \
                         -H 'Content-Type: application/json' \
                         -d '{"review":"This product is amazing!"}')"
 
-                    printf '%s\\n' "$response" | python3 -c '
-        import json
-        import sys
-
-        data = json.load(sys.stdin)
-        assert data["sentiment"] == "positive", data
-        print("Smoke test superato:", data["sentiment"])
-        '
+                    printf '%s\\n' "$response" | python3 -c 'import json, sys; data = json.load(sys.stdin); assert data["sentiment"] == "positive", data; print("Smoke test superato:", data["sentiment"])'
 
                     echo "=== Deployment completato ==="
                 '''
@@ -126,15 +142,16 @@ pipeline {
         }
 
 
+
     }
 
-    post {
+   post {
         success {
-            echo 'Verifica iniziale Jenkins completata!'
+            echo 'Pipeline CI/CD completata con successo!'
         }
 
         failure {
-            echo 'Verifica iniziale fallita: controllare la console.'
+            echo 'Pipeline CI/CD fallita: controllare la console.'
         }
     }
 }
