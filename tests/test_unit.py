@@ -86,3 +86,7 @@ def test_prediction_response_without_confidence():
 def test_review_max_length_valid():
     review = ReviewRequest(review="a" * 5000)
     assert len(review.review) == 5000
+
+# TEST 12 — Errore simulato
+def test_simulated_failure():
+    assert False, "Errore simulato per verificare la pipeline CI/CD"
