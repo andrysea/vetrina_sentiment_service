@@ -35,43 +35,6 @@ L'infrastruttura comprende inoltre:
 - **Jenkins:** automatizza i test, la build e il deployment del servizio.
 - **Gmail SMTP:** permette l'invio delle notifiche relative all'esito della pipeline CI/CD.
 
-### 2.1 Diagramma dell'architettura
-
-```mermaid
-flowchart TD
-    A[Sviluppatore] -->|Commit e push| B[GitHub]
-    C[Jenkins CI/CD] <-->|Poll SCM e Checkout| B
-
-    C --> D[Test unitari e di integrazione]
-    D -->|Test superati| E[Build immagine Docker]
-    E --> F[Deployment automatico]
-    F --> K[Smoke test]
-
-    D -->|Test falliti| N[Notifica FAILURE]
-    E -->|Build fallita| N
-    F -->|Deploy fallito| N
-    K -->|Fallimento| N
-    K -->|Successo| L[Notifica SUCCESS]
-
-    L --> M[Gmail SMTP]
-    N --> M
-
-    subgraph Docker Compose
-        G[FastAPI - 8000]
-        H[Modello Sentiment Analysis]
-        I[Prometheus - 9090]
-        J[Grafana - 3000]
-
-        G --> H
-        I -->|GET /metrics| G
-        J -->|PromQL| I
-    end
-
-    F --> G
-    K -->|Verifica API| G
-    O[Client REST] -->|POST /predict| G
-```
-
 ## 3. Prerequisiti
 
 Per eseguire il progetto sono necessari:
