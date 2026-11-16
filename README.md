@@ -233,6 +233,11 @@ Aprire `http://localhost:3000` e accedere con le credenziali configurate nel fil
 
 La dashboard è gestita tramite file: eventuali modifiche permanenti devono essere apportate alla configurazione versionata nel repository.
 
+## Continuous Integration & Continuous Deployment
+
+La pipeline Jenkins rileva automaticamente le modifiche
+pubblicate su GitHub mediante Poll SCM ogni due minuti.
+
 ---
 **Vetrinia S.p.A. — Sentiment Analysis Service**
 
