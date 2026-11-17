@@ -664,6 +664,12 @@ Sono state realizzate le seguenti funzionalità:
 - Monitoraggio tramite Prometheus.
 - Visualizzazione delle metriche tramite Grafana.
 
+
+## 15. Documentazione fotografica
+
+Il repository include una raccolta di screenshot che documentano il funzionamento del sistema e i risultati ottenuti durante le verifiche. Le immagini mostrano le principali funzionalità implementate, tra cui il servizio REST, il monitoraggio tramite Prometheus e Grafana, l'esecuzione della pipeline CI/CD con Jenkins e le notifiche automatiche. 
+Gli screenshot sono disponibili nella cartella `docs/screenshots/` del repository.
+
 ---
 
 **Vetrinia S.p.A. — Sentiment Analysis Service**
