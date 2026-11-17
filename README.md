@@ -668,5 +668,4 @@ La soluzione consente di automatizzare il processo dal rilevamento delle modific
 ---
 
 **Vetrinia S.p.A. — Sentiment Analysis Service**
-
 Progetto DevOps e gestione del ciclo di vita del software.
