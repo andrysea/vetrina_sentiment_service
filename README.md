@@ -664,7 +664,6 @@ Sono state realizzate le seguenti funzionalità:
 - Monitoraggio tramite Prometheus.
 - Visualizzazione delle metriche tramite Grafana.
 
-La soluzione consente di automatizzare il processo dal rilevamento delle modifiche su GitHub fino alla distribuzione del servizio nell'ambiente di staging.
 ---
 
 **Vetrinia S.p.A. — Sentiment Analysis Service**
