@@ -383,9 +383,7 @@ La dashboard è gestita tramite file: eventuali modifiche permanenti devono esse
 
 ## 11. Continuous Integration & Continuous Deployment
 
-La pipeline Jenkins rileva automaticamente le modifiche pubblicate su GitHub mediante Poll SCM ogni due minuti.
-
-La configurazione della pipeline è definita nel file `Jenkinsfile`, versionato nella directory principale del repository.
+La pipeline Jenkins rileva automaticamente le modifiche pubblicate su GitHub mediante Poll SCM ogni due minuti. La configurazione della pipeline è definita nel file `Jenkinsfile`, versionato nella directory principale del repository.
 
 ### 11.1 Installazione e avvio di Jenkins
 
@@ -417,8 +415,6 @@ Creare un nuovo progetto Jenkins di tipo Pipeline con le seguenti impostazioni:
 - **Repository URL:** https://github.com/andrysea/vetrina_sentiment_service.git
 - **Branch:** `*/main`
 - **Script Path:** `Jenkinsfile`
-
-Il repository è pubblico e non richiede credenziali per il checkout.
 
 Avviare manualmente la prima build per inizializzare la pipeline e il trigger automatico.
 
@@ -462,15 +458,12 @@ image: ${VETRINIA_IMAGE:-vetrinia-sentiment:1.0}
 ```
 
 La variabile `VETRINIA_IMAGE` viene impostata dinamicamente da Jenkins durante il deployment.
-
 In assenza della variabile viene utilizzata l'immagine predefinita `vetrinia-sentiment:1.0`.
-
 Questo meccanismo garantisce che la pipeline distribuisca l'immagine associata alla build corrente.
 
 ### 11.5 Deployment automatico
 
 Il deployment viene effettuato in un ambiente di staging locale gestito tramite Docker Compose.
-
 Jenkins ricrea esclusivamente il container FastAPI, senza ricreare i container Prometheus e Grafana.
 
 Successivamente vengono eseguiti:
@@ -519,7 +512,7 @@ La credenziale viene salvata in Jenkins utilizzando:
 - **Password:** password per le app di Google.
 - **ID:** `gmail-smtp`
 
-Selezionare la credenziale nella configurazione SMTP.
+Selezionare le credenziali nella configurazione SMTP.
 
 Nessuna password SMTP viene inserita nel Jenkinsfile o pubblicata nel repository.
 
@@ -579,8 +572,6 @@ Il progetto adotta le seguenti misure di sicurezza:
 - Versionamento delle dipendenze Python.
 - Accesso locale alle porte dei servizi.
 - Caricamento di un modello pickle proveniente da una fonte affidabile.
-
-Le password e le credenziali personali non devono essere inserite nel codice sorgente.
 
 ## 13. Risoluzione dei problemi
 
@@ -669,18 +660,11 @@ Sono state realizzate le seguenti funzionalità:
 - Pipeline CI/CD automatizzata.
 - Versionamento delle immagini Docker.
 - Deployment automatico.
-- Notifiche e-mail di successo e fallimento.
+- Notifiche e-mail di successo / fallimento.
 - Monitoraggio tramite Prometheus.
 - Visualizzazione delle metriche tramite Grafana.
 
 La soluzione consente di automatizzare il processo dal rilevamento delle modifiche su GitHub fino alla distribuzione del servizio nell'ambiente di staging.
-
-L'infrastruttura è stata verificata in ambiente locale. Il funzionamento automatico richiede che Jenkins, Docker e la connessione di rete siano disponibili.
-
-Il polling può raggruppare più commit pubblicati tra due controlli consecutivi.
-
-Non sono implementati un rollback automatico, un deployment senza interruzioni o un'infrastruttura di produzione distribuita.
-
 ---
 
 **Vetrinia S.p.A. — Sentiment Analysis Service**
