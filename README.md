@@ -3,9 +3,7 @@
 
 ## 1. Descrizione del progetto
 
-Servizio REST sviluppato con **Python e FastAPI** per l'analisi del sentiment di recensioni per la sola lingua inglese.
-
-Il servizio utilizza un modello di Machine Learning preaddestrato, basato su scikit-learn.
+Servizio REST sviluppato con **Python e FastAPI** per l'analisi del sentiment di recensioni per la sola lingua inglese. Il servizio utilizza un modello di Machine Learning preaddestrato, basato su scikit-learn.
 
 Lo schema di risposta supporta le seguenti classi:
 
@@ -14,7 +12,6 @@ Lo schema di risposta supporta le seguenti classi:
 - `neutral`
 
 I test effettuati sul modello reale verificano le classificazioni `positive` e `negative`.
-
 Il progetto ha l'obiettivo di rendere il modello disponibile attraverso API REST, verificarne il funzionamento mediante test automatici e automatizzarne il deployment e il monitoraggio.
 
 **Tecnologie impiegate:** Python 3.13, FastAPI, scikit-learn, Pytest, Docker, Docker Compose, Prometheus, Grafana, Jenkins e GitHub.
@@ -45,7 +42,6 @@ Per eseguire il progetto sono necessari:
 - Il repository del progetto contenente il modello `models/sentiment_analysis_model.pkl`.
 
 Per eseguire i test direttamente sul computer sono necessari anche Python 3.13 e pip.
-
 Per utilizzare la pipeline CI/CD sono inoltre necessari:
 
 - Jenkins.
@@ -117,7 +113,6 @@ I servizi `api`, `prometheus` e `grafana` devono risultare in esecuzione.
 ## 5. Avvii successivi
 
 Dopo aver spento e riacceso il computer, aprire Docker Desktop e posizionarsi nella cartella del progetto.
-
 Se i container sono già presenti ma risultano arrestati:
 
 ```bash
@@ -131,9 +126,7 @@ docker compose ps
 ```
 
 Se si utilizza la pipeline CI/CD, assicurarsi che anche Jenkins sia in esecuzione.
-
 L'utilizzo di `docker compose start` consente di riavviare i container esistenti senza ricrearli con l'immagine predefinita.
-
 Se i container sono stati rimossi, è possibile avviare nuovamente il sistema specificando l'immagine desiderata.
 
 Esempio:
@@ -180,7 +173,6 @@ curl -X POST http://localhost:8000/predict \
 ```
 
 Il valore di confidence rappresenta la probabilità stimata dal modello per la classe prevista.
-
 Le richieste non valide restituiscono HTTP 422. Gli errori interni di predizione vengono gestiti con HTTP 500.
 
 **GET /metrics**
@@ -230,7 +222,6 @@ L'endpoint **GET /metrics** espone le metriche utilizzate da Prometheus:
 - `process_resident_memory_bytes`: memoria residente utilizzata dal processo.
 
 Prometheus raccoglie le metriche del servizio ogni 15 secondi.
-
 Le dashboard Grafana permettono di visualizzare questi indicatori e individuare eventuali anomalie.
 
 ### 7.1 Simulazione del traffico
